@@ -1,8 +1,6 @@
 package com.hjh.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -11,12 +9,6 @@ import org.springframework.kafka.core.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-//@Autowired
-//private Listener listener;
-//
-//@Autowired
-//private KafkaTemplate<Integer, String> template;
 
 @Configuration
 @EnableKafka
@@ -39,8 +31,10 @@ public class Config {
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
-//        ...
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return props;
     }
 
@@ -49,22 +43,22 @@ public class Config {
         return new Listener();
     }
 
-    @Bean
-    public ProducerFactory<Integer, String> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
-    }
-
-    @Bean
-    public Map<String, Object> producerConfigs() {
-        Map<String, Object> props = new HashMap<>();
-//        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
-//        ...
-        return props;
-    }
-
-    @Bean
-    public KafkaTemplate<Integer, String> kafkaTemplate() {
-        return new KafkaTemplate<Integer, String>(producerFactory());
-    }
+//    @Bean
+//    public ProducerFactory<Integer, String> producerFactory() {
+//        return new DefaultKafkaProducerFactory<>(producerConfigs());
+//    }
+//
+//    @Bean
+//    public Map<String, Object> producerConfigs() {
+//        Map<String, Object> props = new HashMap<>();
+////        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
+////        ...
+//        return props;
+//    }
+//
+//    @Bean
+//    public KafkaTemplate<Integer, String> kafkaTemplate() {
+//        return new KafkaTemplate<Integer, String>(producerFactory());
+//    }
 
 }

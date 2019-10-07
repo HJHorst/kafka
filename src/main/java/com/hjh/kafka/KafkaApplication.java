@@ -22,24 +22,12 @@ public class KafkaApplication implements CommandLineRunner {
 		SpringApplication.run(KafkaApplication.class, args).close();
 	}
 
-//	@Autowired
-//	private KafkaTemplate<String, String> template;
-
 	private final CountDownLatch latch = new CountDownLatch(3);
 
 	@Override
 	public void run(String... args) throws Exception {
-//		this.template.send("test", "foo1");
-//		this.template.send("test", "foo2");
-//		this.template.send("test", "foo3");
-		latch.await(60, TimeUnit.SECONDS);
+		latch.await(600, TimeUnit.SECONDS);
 		logger.info("All received");
 	}
-
-//	@KafkaListener(topics = "test")
-//	public void listen(ConsumerRecord<?, ?> cr) throws Exception {
-//		logger.info(cr.toString());
-//		latch.countDown();
-//	}
 
 }
